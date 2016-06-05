@@ -15,10 +15,15 @@ import com.ankitbansal.services.ICodehubservices;
 
 @RestController
 public class CodeHubController {
+	
+	
+	
+	
+	
  ICodehubservices service=new CodehubServicesImpl();
     @RequestMapping(value="/api/list" ,method=RequestMethod.GET)
     public SubmissionsResponseBody submissionslist( @RequestParam(value="page", defaultValue="1") String page) {
-    	System.out.println("resp");
+    	//System.out.println("resp");
  int pageVal=1;
        SubmissionsResponseBody resp=new SubmissionsResponseBody();
        try{
@@ -37,7 +42,7 @@ public class CodeHubController {
     
     @RequestMapping(value="/api/search" ,method=RequestMethod.GET)
     public SubmissionsResponseBody searchSubmissions( @RequestParam(value="query") String query,@RequestParam(value="page", defaultValue="1") String page) {
-    	System.out.println("resp");
+    	//System.out.println("resp");
  int pageVal=1;
        SubmissionsResponseBody resp=new SubmissionsResponseBody();
        try{
@@ -53,10 +58,62 @@ public class CodeHubController {
         return resp;
     }
     
+    @RequestMapping(value="/api/searchfilter" ,method=RequestMethod.GET)
+    public SubmissionsResponseBody searchSubmissionsByFilter( @RequestParam(value="query") String query,@RequestParam(value="filter") String filter,@RequestParam(value="page", defaultValue="1") String page) {
+    	//System.out.println("resp");
+    	if(filter==""||filter.isEmpty()||filter==null)
+    		return searchSubmissions(query, page);
+    	else{
+    		
+    		if(filter.equals("Time"))
+    			return searchSubmissionsByFilterAdv(query, filter, "Memory", page);
+    		else if(filter.equals("Compi"))
+    			return searchSubmissionsByFilterAdv(query, filter, "Run", page);
+    		
+ int pageVal=1;
+       SubmissionsResponseBody resp=new SubmissionsResponseBody();
+       try{
+    	   pageVal=Integer.parseInt(page);
+    	   resp.setResult(service.getSearchResultsFiltered(query, filter, pageVal));
+    	   resp.setCode("200");
+    	   resp.setMsg("success");
+       } catch (NumberFormatException e) {
+    	   resp.setCode("400");
+    	   resp.setMsg("Number Format Exception!! Enter only Numeric Values");
+       }
+       
+        return resp;
+    }
+    } 
+    
+    @RequestMapping(value="/api/searchfilterAdv" ,method=RequestMethod.GET)
+    public SubmissionsResponseBody searchSubmissionsByFilterAdv( @RequestParam(value="query") String query,@RequestParam(value="filter1") String filter1, @RequestParam(value="filter2") String filter2,@RequestParam(value="page", defaultValue="1") String page) {
+    	//System.out.println("resp");
+    	if(filter1==""||filter1.isEmpty()||filter1==null)
+    		return searchSubmissions(query, page);
+    	else
+    	if(filter2==""||filter2.isEmpty()||filter2==null)
+    		return searchSubmissionsByFilter(query, filter1, page);
+    	else{
+ int pageVal=1;
+       SubmissionsResponseBody resp=new SubmissionsResponseBody();
+       try{
+    	   pageVal=Integer.parseInt(page);
+    	   resp.setResult(service.getSearchResultsFilteredAdv(query, filter1, filter2, pageVal));
+    	   resp.setCode("200");
+    	   resp.setMsg("success");
+       } catch (NumberFormatException e) {
+    	   resp.setCode("400");
+    	   resp.setMsg("Number Format Exception!! Enter only Numeric Values");
+       }
+       
+        return resp;
+    }
+    } 
     
     @RequestMapping(value="/api/analytics" ,method=RequestMethod.GET)
     public AnalyticsResponseBody analytics(){
-    	System.out.println("resp");
+    	//System.out.println("resp");
  
     	AnalyticsResponseBody resp=new AnalyticsResponseBody();
       
@@ -71,7 +128,7 @@ public class CodeHubController {
     
     @RequestMapping(value="/home")
     public SubmissionsResponseBody home() {
-    	System.out.println("resp");
+    	//System.out.println("resp");
     	SubmissionsResponseBody resp=new SubmissionsResponseBody();
     	 resp.setCode("200");
   	   resp.setMsg("good");

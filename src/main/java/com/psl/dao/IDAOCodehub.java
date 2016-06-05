@@ -11,8 +11,9 @@ public interface IDAOCodehub {
 	Map<String ,Integer> getTop2Submissions();
 	int getTotalSubmissions();
 	Map<String ,Integer> getSubmissionsPerLevel();
-	List<SubmissionsModel> getSearchResultsFiltered(String  query,List<String>filter,int page);
-
+	List<SubmissionsModel> getSearchResultsFiltered(String  query,String filter,int page);
+	 List<SubmissionsModel> getSearchResultsFilteredAdv(String query,
+			String filter1,String filter2, int page);
 	
 	
 	

@@ -161,7 +161,7 @@ int count = 0;
 
 	
 	public List<SubmissionsModel> getSearchResultsFiltered(String query,
-			List<String> filter, int page) {
+			String filter, int page) {
 		conn = db.getConection();
 		Statement ps = null;
 
@@ -169,7 +169,49 @@ int count = 0;
 
 		try {
 			ps = conn.createStatement();
-			ResultSet rs = ps.executeQuery("select * from submissions where MATCH(title,metadata,language) AGAINST('"+query+"'IN BOOLEAN MODE) And status='Accepted' limit 10 offset "+(page-1)*10+"");
+			ResultSet rs = ps.executeQuery("select * from submissions where MATCH(title,metadata,language) AGAINST('"+query+"'IN BOOLEAN MODE) And status like '%"+filter+"%' limit 10 offset "+(page-1)*10+"");
+
+			while (rs.next()) {
+				SubmissionsModel b = new SubmissionsModel();
+				b.setSubmision_id(rs.getInt("submission_id"));
+				b.setTitle(rs.getString("title"));
+				b.setMetadata(rs.getString("metadata"));
+				b.setSource(rs.getString("source"));
+				b.setStatus(rs.getString("status"));
+				b.setLanguage(rs.getString("language"));
+				
+				retList.add(b);
+			}
+
+		} catch (SQLException e) {
+			
+			e.printStackTrace();
+		} finally {
+			try {
+				if(ps!=null)
+				ps.close();
+			} catch (SQLException e) {
+				
+				e.printStackTrace();
+			}
+			if (conn != null)
+				db.closeConnection();
+		}
+
+		return retList;
+	}
+
+
+	public List<SubmissionsModel> getSearchResultsFilteredAdv(String query,
+			String filter1,String filter2, int page) {
+		conn = db.getConection();
+		Statement ps = null;
+
+		List<SubmissionsModel> retList = new ArrayList<SubmissionsModel>();
+
+		try {
+			ps = conn.createStatement();
+			ResultSet rs = ps.executeQuery("select * from submissions where MATCH(title,metadata,language) AGAINST('"+query+"'IN BOOLEAN MODE) And status like '%"+filter1+"%' or status like '%"+filter2+"%' limit 10 offset "+(page-1)*10+"");
 
 			while (rs.next()) {
 				SubmissionsModel b = new SubmissionsModel();

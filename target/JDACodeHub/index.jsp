@@ -12,11 +12,15 @@
 
         <!-- Optional theme -->
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
-	
+	<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.9.1/styles/github.min.css">
 	
 	<style>
 	
-	
+	#navbar{
+		color:#003380;
+	background-color:#003380;
+//	height:70px;
+	}
 	
 	
 	</style>
@@ -41,7 +45,7 @@
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav navbar-right">
                     <li>
-                        <a href="#">About</a>
+                     <a> <span>Ankit Bansal</span> - Mob No: <span>9762907853</span> mailId: <span>bansal.ankit92@gmail.com </span></a>
                     </li>
                    
                 </ul>
@@ -59,9 +63,9 @@
             <!-- Blog Entries Column -->
             <div class="col-md-8">
 
-                <br/><br/>
+                <br/><br/><br/>
  				<div class="well">
-                    <h4>Submissions Search</h4>
+                    <h4>Search Submissions </h4>
                     <div class="input-group">
                         <input ng-model="search" type="text" class="form-control" placeholder="Title, Level, Language "  my-enter ="getSearchSub()">
                         <span class="input-group-btn">
@@ -72,24 +76,38 @@
                     </div>
                     <!-- /.input-group -->
                 </div>
-             
-             <div class="well" ng-repeat="x in submissions">
+             <!-- Pager -->
+                <ul class="pager" ng-show="pager">
+                    <li class="previous">
+                        <a><button  style="background  : none; border:none;" ng-click="previous();">&larr; Previous</button></a>
+                    </li>
+                    <span style="color:red;">Current Page: &nbsp;{{pageval}}</span>
+                    <li class="next">
+                        <a><button  style="background  : none; border:none;" ng-click="next();">Next &rarr;</button></a>
+                    </li>
+                </ul>
+             <div class="well" ng-init="i=1" ng-repeat="x in submissions">
                  <div >
-                    <h4> <strong>{{x.title}}</strong> <span>{{x.language}}</span> <span>{{x.status}}</span></h4>
-                   
-                    <p data-dd-collapse-text="100">{{x.source}}</p>
+                    <h4> <strong>{{x.title}}</strong></h4>
+                    <span><strong> Language:</strong>&nbsp;{{x.language}}</span> <br/><span><strong>Status:</strong>&nbsp;{{x.status}}</span>
+                   <br/><span style="color:red"><strong>Difficulty:</strong>&nbsp;{{x.metadata}}</span>
+                  <br> <button type="button" class="btn btn-info" data-toggle="collapse" data-target="{{'#codeCollapse'+$index}}">See Code</button>
+  
+                    <div id="{{'codeCollapse'+$index}}"  class="collapse" hljs compile="true" language="c">{{x.source}}
+                 </div>
                  </div>
              </div>
              
                 <hr>
 
                 <!-- Pager -->
-                <ul class="pager">
+                <ul class="pager" ng-show="pager">
                     <li class="previous">
-                        <button ng-click="previous();">&larr; Previous</button>
+                        <a><button  style="background  : none; border:none;" ng-click="previous();">&larr; Previous</button></a>
                     </li>
+                    <span style="color:red;">Current Page: &nbsp;{{pageval}}</span>
                     <li class="next">
-                        <button ng-click="next();">Next &rarr;</button>
+                        <a><button  style="background  : none; border:none;" ng-click="next();">Next &rarr;</button></a>
                     </li>
                 </ul>
 
@@ -98,6 +116,29 @@
             <!-- Blog Sidebar Widgets Column -->
             <div class="col-md-4">
 <br><br><br><br>
+<h3>Use FIlters</h3>
+                <div class="well">
+                    <form role="form">
+                    
+					    <div class="radio">
+					      <label><input type="radio"  ng-model="radio" value="Accepted" name="optradio">Accepted</label>
+					    </div>
+					    <div class="radio">
+					      <label><input type="radio" ng-model="radio" value="Skipped" name="optradio">Skipped</label>
+					    </div>
+					    <div class="radio">
+					      <label><input type="radio" ng-model="radio" value="Time" name="optradio">Memory/Time Limit Exceeded</label>
+					    </div>
+					    <div class="radio">
+					      <label><input type="radio" ng-model="radio" value="Compi" name="optradio">Runtime/Compilation Error</label>
+					    </div>
+					    <div class="radio">
+					      <label><input type="radio" ng-model="radio" value="Wrong answer" name="optradio">Wrong Answer</label>
+					    </div>
+					  </form>
+	                    
+                </div>
+
                 <h3>Statistical Analysis</h3>
                 <div class="well">
                     <h4>Top 5 languages</h4>
@@ -107,7 +148,6 @@
 	                    </li>
 	                    </ul> 
 	                    <br/>
-	                   <hr>
 	                    <h4>Top 2 submission Attempted</h4>
 	                   <ul>
 	                    <li ng-repeat="x in top2Sub">
@@ -124,12 +164,12 @@
 	                    
                 </div>
 
-                <!-- Side Widget Well -->
+                <!-- Side Widget Well
                 <div class="well">
                     <h4>Side Widget Well</h4>
                     <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore, perspiciatis adipisci accusamus laudantium odit aliquam repellat tempore quos aspernatur vero.</p>
                 </div>
-
+ -->
             </div>
 
         </div>
@@ -141,7 +181,7 @@
         <footer>
             <div class="row">
                 <div class="col-lg-12">
-                    <p>Copyright &copy; Your Website 2014</p>
+                    <p>Copyright &copy; Ankit Bansal 2016</p>
                 </div>
                 <!-- /.col-lg-12 -->
             </div>
@@ -162,17 +202,20 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/typed.js/1.1.1/typed.min.js"></script>
     
         <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.6/angular.min.js"></script>
-
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.4.0/highlight.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/angular-highlightjs/0.6.1/angular-highlightjs.js"></script>
 	<script type="text/javascript">
 	
-	var app=angular.module("app",[])
-		.controller("CodehubController",function($scope,$http,$location){
+	var app=angular.module("app",['hljs'])
+		.controller("CodehubController",function($scope,$http,$location,$interpolate, $window){
 			//alert($location.absUrl());
 			$scope.top5lang=[];
 			 $scope.top2Sub=[];
-			
+			$scope.radio="";
 			 var page=1;
-			 
+			 $scope.pageval=page;
+			 $scope.pager=false;
+			
 			 
 			$http({
 		        method : "GET",
@@ -199,14 +242,18 @@
 			
 			
 			$scope.getSearchSub=function(){
-				alert($location.absUrl()+"api/search?query="+$scope.search+"&page="+page);
+				//alert($location.absUrl()+"api/search?query="+$scope.search+"&page="+page+"&filter="+$scope.radio);
 				$http({
 			        method : "GET",
-			        url : $location.absUrl()+"api/search?query="+$scope.search+"&page="+page
+			        url : $location.absUrl()+"api/searchfilter?query="+$scope.search+"&page="+page+"&filter="+$scope.radio
 			    }).success(function(resp, status, headers, config) {
 			    	//alert(resp);
 			    	
 	            $scope.submissions=resp.result;
+	            $scope.pager=true;
+				 
+	            
+	            
 			    }).error(function(data, status, headers, config) {
 	                alert("Something Went Wrong");
 	            });
@@ -223,6 +270,7 @@
 			}
 			$scope.next=function(){
 				page++;
+				$scope.pageval=page;
 				$scope.getSearchSub();
 			}
 			
@@ -238,9 +286,22 @@
 		            }
 		        });
 		    };
+		}).directive('highlight', function($interpolate, $window){
+	        return {
+	            restrict: 'EA',
+	            scope: true,
+	            compile: function (tElem, tAttrs) {
+	              var interpolateFn = $interpolate(tElem.html(), true);
+	              tElem.html(''); // disable automatic intepolation bindings
+	                            
+	              return function(scope, elem, attrs){
+	                scope.$watch(interpolateFn, function (value) {
+	                  elem.html(hljs.highlight('c',value).value);
+	                });
+	              }
+	              }
+	            };	
 		});
-	
-	
 	
 	
 	

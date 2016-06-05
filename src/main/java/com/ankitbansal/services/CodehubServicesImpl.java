@@ -36,7 +36,7 @@ public class CodehubServicesImpl implements ICodehubservices {
 	}
 
 	public List<SubmissionsModel> getSearchResultsFiltered(String query,
-			List<String> filter, int page) {
+			String filter, int page) {
 		// TODO Auto-generated method stub
 		return dao.getSearchResultsFiltered(query, filter, page);
 	}
@@ -44,6 +44,12 @@ public class CodehubServicesImpl implements ICodehubservices {
 	public List<SubmissionsModel> getSubmissions(int page) {
 		// TODO Auto-generated method stub
 		return dao.getSubmissions(page);
+	}
+
+	public List<SubmissionsModel> getSearchResultsFilteredAdv(String query,
+			String filter1, String filter2, int page) {
+		// TODO Auto-generated method stub
+		return dao.getSearchResultsFilteredAdv(query, filter1, filter2, page);
 	}
 
 }
